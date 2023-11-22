@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image and Get Base64</title>
+  </head>
+  <body>
+    <input type="file" id="uploadInput" accept="image/*" />
+
+    <div>
+      <img
+        id="selectedImage"
+        style="max-width: 300px; max-height: 300px; margin-top: 10px"
+      />
+    </div>
+    <div id="base64Result"></div>
+    <div>
+      <button id="copyButton">Copy to Clipboard</button>
+    </div>
+    <script>
+      document
+        .getElementById("uploadInput")
+        .addEventListener("change", function () {
+          const file = this.files[0]
+          const reader = new FileReader()
+
+          reader.onload = function (event) {
+            const base64String = event.target.result
+            document.getElementById("base64Result").innerText = base64String
+            // Display the selected image in the img tag
+            document.getElementById("selectedImage").src = base64String
+            // You can use the base64String for further processing
+            // For example, send it to the server or display the image
+          }
+
+          reader.readAsDataURL(file)
+        })
+
+      document
+        .getElementById("copyButton")
+        .addEventListener("click", function () {
+          const base64String = document.getElementById("base64Result").innerText
+          if (base64String) {
+            navigator.clipboard
+              .writeText(base64String)
+              .then(() => {
+                alert("Base64 string copied to clipboard!")
+              })
+              .catch((err) => {
+                console.error("Failed to copy: ", err)
+                alert("Failed to copy base64 string!")
+              })
+          } else {
+            alert("No base64 string available!")
+          }
+        })
+    </script>
+  </body>
+</html>
