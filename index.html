@@ -16,6 +16,15 @@
     <div>
       <button id="copyButton">Copy to Clipboard</button>
     </div>
+
+    <textarea
+      id="base64TextArea"
+      rows="4"
+      cols="50"
+      placeholder="Paste Base64 image string here"
+    ></textarea
+    ><br /><br />
+
     <script>
       document
         .getElementById("uploadInput")
@@ -53,6 +62,16 @@
             alert("No base64 string available!")
           }
         })
+
+      const base64TextArea = document.getElementById("base64TextArea")
+      const imagePreview = document.getElementById("selectedImage")
+
+      base64TextArea.addEventListener("input", function () {
+        const base64String = base64TextArea.value.trim() // Get the value and trim extra spaces
+
+        // Update image source with Base64 string
+        imagePreview.src = base64String
+      })
     </script>
   </body>
 </html>
